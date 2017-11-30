@@ -27,4 +27,43 @@ public class Individual {
         return true;
     }
 
+    public void calcAV(Integer index) {
+        //use case statement to control it.
+    }
+
+    public void calcAllAV() {
+        for (int i = 0; i < objFunNum; i++) {
+            calcAV(i);
+        }
+    }
+
+    /**
+     * I'd like to put the objective function here in the Individual class
+     * We need the Individual's gene and data set to calculate the objective value
+     * Here, we can get gene directly, as for data set, I'd like to use FileReading function to make the control.
+     * The difference between different data set is the calculation of distance
+     * We could force every data set class to add a distance calculation function by using interface.
+     */
+
+    //based on wikipedia
+    public Double DBI() {
+
+        return null;
+    }
+
+    public Double S(Integer i) {
+
+        return null;
+    }
+
+    public Double M(Integer i, Integer j) {
+
+        return null;
+    }
+
+    public Double R(Integer i, Integer j) {
+
+        return null;
+    }
+
 }

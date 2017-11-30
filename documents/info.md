@@ -39,14 +39,21 @@
 以记录个数为基因链，基因型为其被分到的类标号。*（聚类的类簇数量？）*
 
 ## 聚类的有效评价
-聚类的评价指标基本可以分为类内和类间两方面来评价，根据论文[一种基于连通性的聚类有效评价指标.pdf](file/一种基于连通性的聚类有效性评价指标.pdf)来说，现存的各种评价指标都具有一定的缺陷，并提出一种较为有效的评价指标***new-index***。emmm... 
+根据维基百科所说，评价分为两类，外部评价(External evaluation,AKA *Given Label* )和内部评价(Internal evaluation, AKA *Not Given Label* )，聚类的评价指标(Not Given Label)基本可以分为类内和类间两方面来评价，类内紧致性(Compactness)表示类内各个点的聚拢效果，类间间隔性(Separation)表示不同类之间的分割程度。根据阅读的各种材料，各种评价指标基本遵循一种评价效果越好，其评价指标的计算就越复杂的准则。<br>
+已知的评价指标：
+* [Davies–Bouldin index](https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index) (戴维森堡丁指数)
+* [Dunn index](https://en.wikipedia.org/wiki/Dunn_index) (邓恩指数)
+* [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering))([轮廓系数](https://baike.baidu.com/item/%E8%BD%AE%E5%BB%93%E7%B3%BB%E6%95%B0/17361607?fr=aladdin))
+* [new-index](file/一种基于连通性的聚类有效性评价指标.pdf)
+
 #### new-index
-new-index虽然又优点，但是我觉得其时间复杂度太高，尤其是在计算两点联通距离的时候，时间复杂度非常大。
+根据论文[一种基于连通性的聚类有效评价指标.pdf](file/一种基于连通性的聚类有效性评价指标.pdf)，现存的各种评价指标都具有一定的缺陷，并提出一种较为有效的评价指标***new-index***。emmm... <br>
+new-index虽然有优点，但是我觉得其时间复杂度太高，尤其是在计算两点联通距离的时候，时间复杂度非常大。
 我们假设，每一个类所包含的点的平均数量为m那么。每个类需要计算点之间的距离$2m$次，每两个点之间的联通距离计算就需要选取最大值$\sum_{i=0}^{m-2}A_{m-2}^{i}$次，选取最小值1次。一个类的类内紧致性就需要$C_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$次最大值计算，$C_{m}^{2}$次最小值计算。假设我们聚类结果有k类，那么，就需要
 $$2km$$次点距离计算。
 $$kC_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$$次最大值计算。
 $$kC_{m}^{2}$$次最小值计算。
-<br>因此，我决定先不用这种评价指标。去网上参考[CSDN-聚类算法评价指标](http://blog.csdn.net/sinat_33363493/article/details/52496011)，先利用文中比较简单的评价指标来作为我的目标函数们。
+<br>因此，我决定先不用这种评价指标。
 
 
 ## Reference
@@ -54,4 +61,7 @@ $$kC_{m}^{2}$$次最小值计算。
 * [知乎-谁能通俗的讲解一下NSGA-II多目标遗传算法？](https://www.zhihu.com/question/26990498) 
 * [NSGA-II 中文翻译](file/NSGA-II 中文翻译.pdf)
 * [一种基于连通性的聚类有效性评价指标](file/一种基于连通性的聚类有效性评价指标.pdf)
-* [[Wikipedia]Pareto efficiency](https://en.wikipedia.org/wiki/Pareto_efficiency)
+* [Wikipedia-Pareto efficiency](https://en.wikipedia.org/wiki/Pareto_efficiency)
+* [聚类算法评价指标](http://blog.csdn.net/sinat_33363493/article/details/52496011)
+* [Wikipedia-Cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis#Internal_evaluation)
+* [Github Repository](https://github.com/MaxLeojh/NSGA-II)

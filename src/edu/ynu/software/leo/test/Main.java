@@ -1,6 +1,5 @@
 package edu.ynu.software.leo.test;
-
-import edu.ynu.software.leo.algorithm.Iris;
+import edu.ynu.software.leo.dataSet.Iris;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,23 +7,25 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by maxleo on 17-11-2.
  */
-public class test {
-    public static List<Iris> irisData;
+public class Main {
+    public static List<Iris> dataSet;
     public static void main(String[] args) {
-        String filePath = "/home/maxleo/Data/Iris set/Iris.data";
-        irisData = readFileByLines(filePath);
-        for (int i = 0; i < irisData.size(); i++) {
-            System.out.println("["+i+"]"+irisData.get(i).sepalL+","+irisData.get(i).sepalW+","+irisData.get(i).petalL+","+irisData.get(i).petalW+","+irisData.get(i).type);
-        }
+        String filePath = "data/Iris set/Iris.data";
+        dataSet = readIrisData(filePath);
+
+// check file input
+//        for (int i = 0; i < dataSet.size(); i++) {
+//            System.out.println("["+i+"]"+dataSet.get(i).sepalL+","+dataSet.get(i).sepalW+","+dataSet.get(i).petalL+","+dataSet.get(i).petalW+","+dataSet.get(i).type);
+//        }
+
 
     }
 
-    public static List<Iris> readFileByLines(String fileName) {
+    public static List<Iris> readIrisData(String fileName) {
         File file = new File(fileName);
         BufferedReader reader = null;
         List<Iris> irisData = new ArrayList<>();

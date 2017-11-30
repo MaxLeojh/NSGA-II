@@ -1,4 +1,4 @@
-package edu.ynu.software.leo.algorithm;
+package edu.ynu.software.leo.dataSet;
 
 /**
  * Created by maxleo on 17-11-16.
@@ -20,4 +20,8 @@ public class Iris {
     public Double petalL;
     public Double petalW;
     public String type;
+
+    public Double distance(Iris obj) {
+        return Math.sqrt(Math.pow(this.sepalL-obj.sepalL,2) + Math.pow(this.sepalW-obj.sepalW,2) + Math.pow(this.petalL-obj.petalL,2) + Math.pow(this.petalW-obj.petalW,2));
+    }
 }
