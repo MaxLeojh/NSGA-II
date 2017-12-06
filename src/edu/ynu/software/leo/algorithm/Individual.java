@@ -130,4 +130,6 @@ public class Individual {
     }
     //<END>[Davies–Bouldin index]
 
+    //<BEGIN>[Dunn index]
+
 }

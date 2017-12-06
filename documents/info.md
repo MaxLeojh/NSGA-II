@@ -46,6 +46,25 @@
 * [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering)([轮廓系数](https://baike.baidu.com/item/%E8%BD%AE%E5%BB%93%E7%B3%BB%E6%95%B0/17361607?fr=aladdin))
 * [new-index](file/一种基于连通性的聚类有效性评价指标.pdf)(一种基于连通性的聚类有效性评价指标)
 
+#### Davies–Bouldin index
+根据维基百科的定义直接来写，类内紧致性定义为$S_i$，类间隔离性表示为$M_{i,j}$。
+$$S_i = \left(\frac {1}{T_i}\sum_{j=1}^{T_i}\left|X_j-A_i\right|^{p}\right)^{1/p}$$
+其中$T_{i}$是第i类的大小，$A_{i}$是第i类的重心，$X_{i}$是第i类中的一个元素。
+$$M_{i,j} = \left\|A_{i}-A_{j}\right\|_{p} = \left(\sum_{k=1}^{n}\left|a_{k,i}-a_{k,j}\right|^{p}\right)^{1/p}$$
+可以理解为$M_{i,j}$是第类簇i的重心和类簇j的重心的距离<br>
+以此为基础定义$R_{i,j}$，$D_{i}$，$DB$。
+$$R_{i,j}=\frac{S_{i}+S_{j}}{M_{i,j}}$$
+$$D_{i}=\max_{j \neq i}R_{i,j}$$
+$$DB=\frac{1}{N}\sum_{i=1}^{N}D_{i}$$
+$N$是类簇数量。<br>
+**DB越小意味着类内距离越小，同时类间距离越大，因此DBI越小证明聚类效果越好**
+
+#### Dunn index
+根据维基百科资料，邓恩指数定义非常简单：
+$$DI_{m}=\min_{1}$$
+
+#### Silhouette coefficient
+
 #### new-index
 根据论文[一种基于连通性的聚类有效评价指标.pdf](file/一种基于连通性的聚类有效性评价指标.pdf)，现存的各种评价指标都具有一定的缺陷，并提出一种较为有效的评价指标***new-index***。emmm... <br>
 new-index虽然有优点，但是我觉得其时间复杂度太高，尤其是在计算两点联通距离的时候，时间复杂度非常大。
