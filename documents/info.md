@@ -43,8 +43,8 @@
 已知的评价指标：
 * [Davies–Bouldin index](https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index) (戴维森堡丁指数)
 * [Dunn index](https://en.wikipedia.org/wiki/Dunn_index) (邓恩指数)
-* [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering))([轮廓系数](https://baike.baidu.com/item/%E8%BD%AE%E5%BB%93%E7%B3%BB%E6%95%B0/17361607?fr=aladdin))
-* [new-index](file/一种基于连通性的聚类有效性评价指标.pdf)
+* [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering)([轮廓系数](https://baike.baidu.com/item/%E8%BD%AE%E5%BB%93%E7%B3%BB%E6%95%B0/17361607?fr=aladdin))
+* [new-index](file/一种基于连通性的聚类有效性评价指标.pdf)(一种基于连通性的聚类有效性评价指标)
 
 #### new-index
 根据论文[一种基于连通性的聚类有效评价指标.pdf](file/一种基于连通性的聚类有效性评价指标.pdf)，现存的各种评价指标都具有一定的缺陷，并提出一种较为有效的评价指标***new-index***。emmm... <br>
@@ -53,8 +53,6 @@ new-index虽然有优点，但是我觉得其时间复杂度太高，尤其是�
 $$2km$$次点距离计算。
 $$kC_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$$次最大值计算。
 $$kC_{m}^{2}$$次最小值计算。
-<br>因此，我决定先不用这种评价指标。
-
 
 ## Reference
 * [从NSGA到 NSGA II](http://www.cnblogs.com/bnuvincent/p/52s68786.html)
@@ -64,4 +62,5 @@ $$kC_{m}^{2}$$次最小值计算。
 * [Wikipedia-Pareto efficiency](https://en.wikipedia.org/wiki/Pareto_efficiency)
 * [聚类算法评价指标](http://blog.csdn.net/sinat_33363493/article/details/52496011)
 * [Wikipedia-Cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis#Internal_evaluation)
+* [浅说Davies-Bouldin指数（DBI）](http://blog.sina.com.cn/s/blog_65c8baf901016flh.html)
 * [Github Repository](https://github.com/MaxLeojh/NSGA-II)

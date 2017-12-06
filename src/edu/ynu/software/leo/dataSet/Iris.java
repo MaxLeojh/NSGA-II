@@ -24,4 +24,38 @@ public class Iris {
     public Double distance(Iris obj) {
         return Math.sqrt(Math.pow(this.sepalL-obj.sepalL,2) + Math.pow(this.sepalW-obj.sepalW,2) + Math.pow(this.petalL-obj.petalL,2) + Math.pow(this.petalW-obj.petalW,2));
     }
+
+    public Iris plus(Iris obj) {
+        this.sepalL += obj.sepalL;
+        this.sepalW += obj.sepalW;
+        this.petalL += obj.petalL;
+        this.petalW += obj.petalW;
+
+        return this;
+    }
+
+    public Iris divideBy(Integer divisor) {
+        this.sepalL /= divisor;
+        this.sepalW /= divisor;
+        this.petalL /= divisor;
+        this.petalW /= divisor;
+
+        return this;
+    }
+
+    public Iris(Double sepalL, Double sepalW, Double petalL, Double petalW, String type) {
+        this.sepalL = sepalL;
+        this.sepalW = sepalW;
+        this.petalL = petalL;
+        this.petalW = petalW;
+        this.type = type;
+    }
+
+    public Iris() {
+        this.sepalL = 0.0;
+        this.sepalW = 0.0;
+        this.petalL = 0.0;
+        this.petalW = 0.0;
+        this.type = "Unknown";
+    }
 }
