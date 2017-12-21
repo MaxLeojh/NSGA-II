@@ -83,8 +83,11 @@ public class Individual {
      * We could force every data set class to add a distance calculation function by using interface(doesn't work).
      */
 
-    //<BEGIN>[Davies–Bouldin index]
-    //based on wikipedia,reference:[https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index]
+    /**
+     * <BEGIN>[Davies–Bouldin index]
+     * based on wikipedia,reference:[https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index]
+     */
+
     public Double S(Integer i) {
         Iris centroid = centroids.get(i);
 
@@ -128,8 +131,107 @@ public class Individual {
         Double result = sum/classNum;
         return result;
     }
-    //<END>[Davies–Bouldin index]
 
-    //<BEGIN>[Dunn index]
+    /**
+     * <END>[Davies–Bouldin index]
+     */
+
+    /**
+     * <BEGIN>[Dunn index]
+     * based on wikipedia,reference:[https://en.wikipedia.org/wiki/Dunn_index]
+     */
+
+    //Inner-cluster distance--------------
+    public Double maxDis(Integer i) { //the maximum distance
+        ArrayList<Integer> cluster = new ArrayList<>();
+        Double result = 0d;
+        for (int j = 0; j < geneSize; j++)
+            if (gene.get(j) == i) cluster.add(j); //find cluster i, put them into ArrayList 'cluster'
+        for (int j = 0; j < cluster.size(); j++) { //calculate the distance of each pair
+            for (int k = 0; k < j ; k++) {
+                Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(cluster.get(k)));
+                if (temp > result) result = temp;
+            }
+        }
+        return result;
+    }
+
+    public Double meanDis(Integer i) { //the mean distance between all pairs
+        ArrayList<Integer> cluster = new ArrayList<>();
+        Double result = 0d;
+        Integer count = 0;
+        for (int j = 0; j < geneSize; j++)
+            if (gene.get(j) == i) cluster.add(j); //find cluster i, put them into ArrayList 'cluster'
+        for (int j = 0; j < cluster.size(); j++) {
+            for (int k = 0; k < j ; k++) {
+                Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(cluster.get(k))); //calculate the distance of each pair
+                result += temp;
+                count++;
+            }
+        }
+        result = result/count;
+        return result;
+    }
+
+    public Double meanPointDis(Integer i) { //distance of all the points from the mean
+        ArrayList<Integer> cluster = new ArrayList<>();
+        Double result = 0d;
+        Iris centroid = centroids.get(i);
+        for (int j = 0; j < geneSize; j++)
+            if (gene.get(j) == i) cluster.add(j); //find cluster i, put them into ArrayList 'cluster'
+        for (int j = 0; j < cluster.size(); j++) {
+            Double temp = Main.dataSet.get(j).distance(centroid);
+            result += temp;
+        }
+        result /= cluster.size();
+        return null;
+    }
+
+
+    //Inter-cluster distance--------------
+    public Double closestDis(Integer i, Integer j) {
+        Double result = Double.MAX_VALUE;
+        ArrayList<Integer> clusterI = new ArrayList<>();
+        ArrayList<Integer> clusterJ = new ArrayList<>();
+        for (int k = 0; k < geneSize; k++) { //find cluster i,j
+            if (gene.get(k) == i) clusterI.add(k);
+            if (gene.get(k) == j) clusterJ.add(k);
+        }
+        for (int k = 0; k < clusterI.size(); k++) {
+            for (int l = 0; l < clusterJ.size(); l++) {
+                Double temp = Main.dataSet.get(clusterI.get(k)).distance(Main.dataSet.get(clusterJ.get(l)));
+                if (temp < result) result = temp;
+            }
+        }
+        return result;
+    }
+
+    public Double farthestDis(Integer i, Integer j) {
+        Double result = 0d;
+        ArrayList<Integer> clusterI = new ArrayList<>();
+        ArrayList<Integer> clusterJ = new ArrayList<>();
+        for (int k = 0; k < geneSize; k++) { //find cluster i,j
+            if (gene.get(k) == i) clusterI.add(k);
+            if (gene.get(k) == j) clusterJ.add(k);
+        }
+        for (int k = 0; k < clusterI.size(); k++) {
+            for (int l = 0; l < clusterJ.size(); l++) {
+                Double temp = Main.dataSet.get(clusterI.get(k)).distance(Main.dataSet.get(clusterJ.get(l)));
+                if (temp > result) result = temp;
+            }
+        }
+        return result;
+    }
+
+    public Double centroidsDis(Integer i, Integer j) {
+        Iris centroidI = centroids.get(i);
+        Iris centroidJ = centroids.get(j);
+        Double result = centroidI.distance(centroidJ);
+        return result;
+    }
+
+    /**
+     * <END>[[Dunn index]]
+     */
 
 }
