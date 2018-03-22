@@ -23,7 +23,7 @@
 ## Pareto Dominance Relation
 ![Pareto Dominance Relation](img/pareto domainance relation.png)
 
-**翻译过来就是：**在多目标问题中，有两个解S1，S2，其中一个解S1的所有目标适应值都好过S2的，那么S1支配S2 
+**翻译过来就是：**在多目标问题中，有两个解S1，S2，其中一个解S1的所有目标适应值都好过S2的，那么S1支配S2
 
 ## 算法思想
 首先，要写NSGA-II需要求出非支配序，而非支配序需要求出Pareto Front，可知，Pareto Front要判断支配关系，所以需要一个**支配关系算子**，支配关系算子的有两个输入，分别是两个解S1、S2，返回结果为布尔型，表示S1是否支配S2，算法思想就是对两个解的所有目标适应值进行比较，从而得出关系*（可运用逻辑关系设计成非支配关系算子，效率会提高）*。有了支配关系算子，就可以完成**非支配排序算子**，即从一个种群中选出非支配解集并且编上号，感觉并不需要写成独立算子，*（其实，并不需要全部求出，而是求一层放入精英池一层，放不下的话，后面的pareto front就不用求了）*具体实现再看。其次，NSGA-II需要一个**个体拥挤距离算子**，这个算子直接根据伪代码写出即可，不会有子算子，最后需要一个**算法主循环**，它包括**交叉算子**和**变异算子**，最后还需要一个能够把基因型转化成表现型的**目标函数算子**。所以综上所述，一共有：
@@ -67,18 +67,31 @@ $$DI_{m}=\frac{\min \limits_{1 \leq i <j \leq m}\delta \left(C_{i},C_{j}\right)}
 所以根据公式可以看出，**DI越大意味着类内距离越小，类间距离越大，聚类效果越好**。
 
 #### Silhouette coefficient
+根据维基百科的定义，他的运算是针对每一个样本的，所以计算量非常大。<br>
+公式如下：
+$$S \left(i\right)=\frac{b \left(i\right)-a\left(i\right)}{\max \{a \left(i\right),b \left(i\right)\}}$$
+其中$a \left(i\right)$是样本$i$与同簇内其他样本的平均距离，$b\left(i\right)$是样本$i$与其他某簇中所有样本的平均距离的最小值。<br><br>
+**Ref from *wikipedia* **
+> Assume the data have been clustered via any technique, such as k-means, into $k$ clusters. For each datum $i$, let $a(i)$ be the average distance between $i$ and all other data within the same cluster. We can interpret $a(i)$ as a measure of how well $i$ is assigned to its cluster (the smaller the value, the better the assignment). We then define the average dissimilarity of point $i$ to a cluster $c$ as the average of the distance from $i$ to all points in $c$.
+> 
+> Let $b(i)$ be the lowest average distance of $i$ to all points in any other cluster, of which $i$ is not a member. The cluster with this lowest average dissimilarity is said to be the "neighbouring cluster" of $i$ because it is the next best fit cluster for point $i$.
+
+<br>
 
 #### new-index
 根据论文[一种基于连通性的聚类有效评价指标.pdf](file/一种基于连通性的聚类有效性评价指标.pdf)，现存的各种评价指标都具有一定的缺陷，并提出一种较为有效的评价指标***new-index***。emmm... <br>
 new-index虽然有优点，但是我觉得其时间复杂度太高，尤其是在计算两点联通距离的时候，时间复杂度非常大。
 我们假设，每一个类所包含的点的平均数量为m那么。每个类需要计算点之间的距离$2m$次，每两个点之间的联通距离计算就需要选取最大值$\sum_{i=0}^{m-2}A_{m-2}^{i}$次，选取最小值1次。一个类的类内紧致性就需要$C_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$次最大值计算，$C_{m}^{2}$次最小值计算。假设我们聚类结果有k类，那么，就需要
-$$2km$$次点距离计算。
-$$kC_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$$次最大值计算。
-$$kC_{m}^{2}$$次最小值计算。
+$$2km$$
+次点距离计算。
+$$kC_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$$
+次最大值计算。
+$$kC_{m}^{2}$$
+次最小值计算。
 
 ## Reference
 * [从NSGA到 NSGA II](http://www.cnblogs.com/bnuvincent/p/52s68786.html)
-* [知乎-谁能通俗的讲解一下NSGA-II多目标遗传算法？](https://www.zhihu.com/question/26990498) 
+* [知乎-谁能通俗的讲解一下NSGA-II多目标遗传算法？](https://www.zhihu.com/question/26990498)
 * [NSGA-II 中文翻译](file/NSGA-II 中文翻译.pdf)
 * [一种基于连通性的聚类有效性评价指标](file/一种基于连通性的聚类有效性评价指标.pdf)
 * [Wikipedia-Pareto efficiency](https://en.wikipedia.org/wiki/Pareto_efficiency)
