@@ -69,13 +69,14 @@ $$DI_{m}=\frac{\min \limits_{1 \leq i <j \leq m}\delta \left(C_{i},C_{j}\right)}
 #### Silhouette coefficient
 根据维基百科的定义，他的运算是针对每一个样本的，所以计算量非常大。<br>
 公式如下：
-$$S \left(i\right)=\frac{b \left(i\right)-a\left(i\right)}{\max \{a \left(i\right),b \left(i\right)\}}$$
-其中$a \left(i\right)$是样本$i$与同簇内其他样本的平均距离，$b\left(i\right)$是样本$i$与其他某簇中所有样本的平均距离的最小值。<br><br>
+$$Sc \left(i\right)=\frac{b \left(i\right)-a\left(i\right)}{\max \{a \left(i\right),b \left(i\right)\}}$$
+其中$a \left(i\right)$是样本$i$与同簇内其他样本的平均距离，$b\left(i\right)$是样本$i$与其他某簇中所有样本的平均距离的最小值。<br>
+所以$Sc(i)$只是针对其中一个样本$i$的评价，对所有的$Sc(i)$求平均才能得到所有的。由此可见，**其计算量也是不小**。
+<br>
 **Ref from *wikipedia* **
 > Assume the data have been clustered via any technique, such as k-means, into $k$ clusters. For each datum $i$, let $a(i)$ be the average distance between $i$ and all other data within the same cluster. We can interpret $a(i)$ as a measure of how well $i$ is assigned to its cluster (the smaller the value, the better the assignment). We then define the average dissimilarity of point $i$ to a cluster $c$ as the average of the distance from $i$ to all points in $c$.
 > 
 > Let $b(i)$ be the lowest average distance of $i$ to all points in any other cluster, of which $i$ is not a member. The cluster with this lowest average dissimilarity is said to be the "neighbouring cluster" of $i$ because it is the next best fit cluster for point $i$.
-
 <br>
 
 #### new-index

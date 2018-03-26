@@ -12,17 +12,17 @@ import java.util.List;
  */
 
 public class Individual {
-    public static final Integer geneSize = 150;
-    public static final Integer objFunNum = 3;
+    public static final Integer geneSize = 150; // for Iris data Set, Size is 150
+    public static final Integer objFunNum = 3; // the number of object functions
 
     //Source attributes
-    public List<Integer> gene = new ArrayList<>();
-    public Integer classNum = 3;
+    public List<Integer> gene = new ArrayList<>(); //one kind of gene, as well as one kind of cluster way
+    public Integer classNum = 3; //the number of clusters;
 
     //Derived attributes
     public List<Double> adaptiveValues = new ArrayList<>();
     public List<Integer> clusterSizes = new ArrayList<>();
-    public List<Iris> centroids = new ArrayList<>();
+    public List<Iris> centroids = new ArrayList<>(); //centroid of every cluster
 
     public Integer rank = 0;//non-domainated rank
     public Double distance;//individual crowding distance
@@ -231,7 +231,36 @@ public class Individual {
     }
 
     /**
-     * <END>[[Dunn index]]
+     * <END>[Dunn index]
      */
+
+    /**
+     * <BEGIN>[Silhouette coefficient]
+     * based on wikipedia,reference:[https://en.wikipedia.org/wiki/Silhouette_(clustering)]
+     */
+
+    public Double a(Integer i) {
+
+        return null;
+    }
+
+    public Double b(Integer i) {
+
+        return null;
+    }
+
+    public Double Sc(Integer i) {
+        double a,b;
+        a = a(i);
+        b = b(i);
+        Double result = (b-a)/Double.max(b,a);
+        return result;
+    }
+
+    /**
+     * <END>[Silhouette coefficient]
+     */
+
+
 
 }
