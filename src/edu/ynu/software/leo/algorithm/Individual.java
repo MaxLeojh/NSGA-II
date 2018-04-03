@@ -17,7 +17,7 @@ public class Individual {
 
     //Source attributes
     public List<Integer> gene = new ArrayList<>(); //one kind of gene, as well as one kind of cluster way
-    public Integer classNum = 3; //the number of clusters;
+    public Integer clusterCount = 3; //the number of clusters;
 
     //Derived attributes
     public List<Double> adaptiveValues = new ArrayList<>();
@@ -37,13 +37,13 @@ public class Individual {
     }
 
     //calculate the adaptive values
-    public void calcAV(Integer index) {
+    public void calcAVE(Integer index) {
         //use case statement to control it.
     }
 
     public void calcAllAV() {
         for (int i = 0; i < objFunNum; i++) {
-            calcAV(i);
+            calcAVE(i);
         }
     }
 
@@ -58,8 +58,8 @@ public class Individual {
     }
 
     public void calcCentroids() {
-        Iris[] tempSum = new Iris[classNum];
-        for (int i = 0; i < classNum ; i++) {
+        Iris[] tempSum = new Iris[clusterCount];
+        for (int i = 0; i < clusterCount ; i++) {
             Iris iris = new Iris();
             tempSum[i] = iris;
         }
@@ -67,7 +67,7 @@ public class Individual {
             Integer index = gene.get(i);
             tempSum[index].plus(Main.dataSet.get(i));
         }
-        for (int i = 0; i < classNum ; i++) {
+        for (int i = 0; i < clusterCount ; i++) {
             tempSum[i].divideBy(clusterSizes.get(i));
 
             //reference:https://www.programcreek.com/2013/04/how-to-convert-array-to-arraylist-in-java/
@@ -114,7 +114,7 @@ public class Individual {
 
     public Double D(Integer i) {
         Double result = 0.0;
-        for (int j = 0; j < classNum ; j++) {
+        for (int j = 0; j < clusterCount ; j++) {
             if (i != j) {
                 Double newResult = R(i,j);
                 if (newResult > result) result = newResult;
@@ -125,10 +125,10 @@ public class Individual {
 
     public Double DB() {
         Double sum = 0d;
-        for (int i = 0; i < classNum ; i++) {
+        for (int i = 0; i < clusterCount ; i++) {
             sum += D(i);
         }
-        Double result = sum/classNum;
+        Double result = sum/clusterCount;
         return result;
     }
 
@@ -239,14 +239,26 @@ public class Individual {
      * based on wikipedia,reference:[https://en.wikipedia.org/wiki/Silhouette_(clustering)]
      */
 
-    public Double a(Integer i) {
-
-        return null;
+    public Double a(Integer i) { //the average distance inner cluster which contains sample i
+        Integer clusterNo = gene.get(i); //get cluster number
+        return aveDisBtSamClu(i,clusterNo);
     }
 
     public Double b(Integer i) {
+        Double result = Double.MAX_VALUE;
+        Integer resultCount = -1;
+        Integer clusterNo = gene.get(i); //get cluster number
+        for (int j = 0; j < clusterCount; j++) {
+            if (j!=clusterNo){
+                Double temp = aveDisBtSamClu(i,j);
+                if (temp < result) {
+                    result = temp;
+                    resultCount = j;
+                }
+            }
+        }
 
-        return null;
+        return result;
     }
 
     public Double Sc(Integer i) {
@@ -254,6 +266,21 @@ public class Individual {
         a = a(i);
         b = b(i);
         Double result = (b-a)/Double.max(b,a);
+        return result;
+    }
+
+    public Double aveDisBtSamClu(Integer sampleNo, Integer clusterNo){ //calculate the average distance between a sample and a cluster
+        ArrayList<Integer> cluster = new ArrayList<>(); // container to store the elements from this cluster
+        Double result = 0d;
+        Integer count = 0;
+        for (int j = 0; j < geneSize; j++)
+            if (gene.get(j) == clusterNo) cluster.add(j); //find cluster clusterNum, put them into ArrayList 'cluster'
+        for (int j = 0; j < cluster.size(); j++) {
+            Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(sampleNo));
+            result += temp;
+            count++;
+        }
+        result = result/count;
         return result;
     }
 
