@@ -37,13 +37,32 @@ public class Individual {
     }
 
     //calculate the adaptive values
-    public void calcAVE(Integer index) {
+    public void calcAV(Integer index) {
         //use case statement to control it.
+        Double value;
+        switch (index){
+            case 1: //[Davies–Bouldin index]
+                System.out.println("case 1:");
+                value = DB();
+                System.out.println(value);
+                adaptiveValues.add(1,value);
+                break;
+            case 2: //[Dunn index]
+                System.out.println("case 2:");
+                //HERE!
+                break;
+            case 3:
+                System.out.println("case 3:");
+                break;
+            default:
+                System.out.println("default");
+                break;
+        }
     }
 
     public void calcAllAV() {
         for (int i = 0; i < objFunNum; i++) {
-            calcAVE(i);
+            calcAV(i);
         }
     }
 
