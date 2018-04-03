@@ -288,6 +288,4 @@ public class Individual {
      * <END>[Silhouette coefficient]
      */
 
-
-
 }

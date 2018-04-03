@@ -51,7 +51,7 @@ public class Population {
              ) {
             if (random.nextDouble() < mutationRate) {
                 Integer index = random.nextInt(Individual.geneSize);
-                Integer content = random.nextInt(ind.classNum);
+                Integer content = random.nextInt(ind.clusterCount);
                 ind.gene.set(index,content);
             }
         }
