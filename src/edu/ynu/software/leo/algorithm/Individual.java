@@ -24,8 +24,8 @@ public class Individual {
     public List<Integer> clusterSizes = new ArrayList<>();
     public List<Iris> centroids = new ArrayList<>(); //centroid of every cluster
 
-    public Integer rank = 0;//non-domainated rank
-    public Double distance;//individual crowding distance
+    public Integer rank = 0; //non-domainated rank
+    public Double distance; //individual crowding distance
 
     public boolean isDominatedBy(Individual individual) {
         for (int i = 0; i < objFunNum; i++) {
@@ -45,17 +45,22 @@ public class Individual {
                 System.out.println("case 1:");
                 value = DB();
                 System.out.println(value);
-                adaptiveValues.add(1,value);
+                adaptiveValues.add(0,value);
                 break;
             case 2: //[Dunn index]
                 System.out.println("case 2:");
-                //HERE!
+                value = DI();
+                System.out.println(value);
+                adaptiveValues.add(1,value);
                 break;
             case 3:
                 System.out.println("case 3:");
+                value = aveSc();
+                System.out.println(value);
+                adaptiveValues.add(2,value);
                 break;
             default:
-                System.out.println("default");
+                System.out.println("case index ERROR!");
                 break;
         }
     }
@@ -241,11 +246,38 @@ public class Individual {
         }
         return result;
     }
+    //------------------------------END-<Inter-cluster distance>-----------------------------------------------------------
 
     public Double centroidsDis(Integer i, Integer j) {
         Iris centroidI = centroids.get(i);
         Iris centroidJ = centroids.get(j);
         Double result = centroidI.distance(centroidJ);
+        return result;
+    }
+
+    public Double minInterClusterDis(){
+        Double result = Double.MAX_VALUE;
+        for (int i = 0; i < clusterCount; i++) {
+            for (int j = 0; j < i; j++) {
+                Double temp = farthestDis(i,j);//choose the inter-cluster function
+                if (temp < result) result = temp;
+            }
+        }
+        return result;
+    }
+
+    public Double maxInnerClusterDis(){
+        Double resutl = Double.MIN_VALUE;
+        for (int i = 0; i < clusterCount; i++) {
+            Double temp = meanDis(i); //choose the inner-cluster distance function
+            if (temp > resutl) resutl = temp;
+        }
+        return resutl;
+    }
+
+    public Double DI(){ //Dunn index
+        Double result;
+        result = minInterClusterDis()/maxInnerClusterDis();
         return result;
     }
 
@@ -280,13 +312,6 @@ public class Individual {
         return result;
     }
 
-    public Double Sc(Integer i) {
-        double a,b;
-        a = a(i);
-        b = b(i);
-        Double result = (b-a)/Double.max(b,a);
-        return result;
-    }
 
     public Double aveDisBtSamClu(Integer sampleNo, Integer clusterNo){ //calculate the average distance between a sample and a cluster
         ArrayList<Integer> cluster = new ArrayList<>(); // container to store the elements from this cluster
@@ -300,6 +325,23 @@ public class Individual {
             count++;
         }
         result = result/count;
+        return result;
+    }
+
+    public Double Sc(Integer i) {
+        double a,b;
+        a = a(i);
+        b = b(i);
+        Double result = (b-a)/Double.max(b,a);
+        return result;
+    }
+
+    public Double aveSc(){
+        Double result = 0d;
+        for (int i = 0; i < geneSize; i++) {
+            result += Sc(i);
+        }
+        result = result/geneSize;
         return result;
     }
 
