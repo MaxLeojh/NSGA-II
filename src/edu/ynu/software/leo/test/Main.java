@@ -1,4 +1,6 @@
 package edu.ynu.software.leo.test;
+import edu.ynu.software.leo.algorithm.NSGA_II;
+import edu.ynu.software.leo.algorithm.Population;
 import edu.ynu.software.leo.dataSet.Iris;
 
 import java.io.BufferedReader;
@@ -17,10 +19,19 @@ public class Main {
         String filePath = "data/Iris set/Iris.data";
         dataSet = readIrisData(filePath);
 
-// check file input
+          //check file input
 //        for (int i = 0; i < dataSet.size(); i++) {
 //            System.out.println("["+i+"]"+dataSet.get(i).sepalL+","+dataSet.get(i).sepalW+","+dataSet.get(i).petalL+","+dataSet.get(i).petalW+","+dataSet.get(i).type);
 //        }
+
+        Population population = new Population(true);
+        NSGA_II nsga_ii = new NSGA_II();
+
+        for (int i = 0; i < 100; i++) {
+            population = nsga_ii.evolution(population);
+            System.out.println("-------"+i+"----------");
+        }
+
 
 
     }

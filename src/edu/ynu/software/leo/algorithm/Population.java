@@ -12,6 +12,25 @@ public class Population {
 
     public List<Individual> individualList = new ArrayList<>();
 
+    public void setRanks(Integer rank) {
+        for (int i = 0; i < individualList.size(); i++) {
+            individualList.get(i).setRank(rank);
+        }
+    }
+
+    public Population(Boolean isInitialize) {
+        if (isInitialize) {
+            for (int i = 0; i < populationSize; i++) {
+                Individual newIndividual = new Individual(true);
+                individualList.add(newIndividual);
+            }
+        }
+    }
+
+    public Population() {
+        new Population(false);
+    }
+
     public Integer size(){
         return individualList.size();
     }
@@ -68,6 +87,7 @@ public class Population {
                 newInd.gene.add(ind2.gene.get(i));
             }
         }
+        newInd.calcDerivedAttr();
         return newInd;
     }
 

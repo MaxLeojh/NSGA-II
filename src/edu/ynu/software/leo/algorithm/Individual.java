@@ -27,6 +27,35 @@ public class Individual {
     public Integer rank = 0; //non-domainated rank
     public Double distance; //individual crowding distance
 
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    public Individual(Boolean isInitialize) {
+        for (int i = 0; i < clusterCount; i++) {
+            clusterSizes.add(0);
+        }
+        if (isInitialize) {
+            for (int i = 0; i < geneSize; i++) {
+                Integer randomNum = (int)(Math.random() * clusterCount);
+                gene.add(i,randomNum);
+            }
+            calcDerivedAttr();
+        }
+    }
+
+    public Individual() {
+        new Individual(false);
+    }
+
+    public void calcDerivedAttr() { //full fill the derived Attributes
+        calcClusterSizes();
+
+        calcCentroids();
+
+        calcAllAV();
+    }
+
     public boolean isDominatedBy(Individual individual) {
         for (int i = 0; i < objFunNum; i++) {
             //if there is one adaptive values that the individual is not better than this
@@ -41,22 +70,22 @@ public class Individual {
         //use case statement to control it.
         Double value;
         switch (index){
-            case 1: //[Davies–Bouldin index]
-                System.out.println("case 1:");
+            case 0: //[Davies–Bouldin index]
                 value = DB();
-                System.out.println(value);
+//                System.out.println("case 1:");
+//                System.out.println(value);
                 adaptiveValues.add(0,value);
                 break;
-            case 2: //[Dunn index]
-                System.out.println("case 2:");
+            case 1: //[Dunn index]
                 value = DI();
-                System.out.println(value);
+//                System.out.println("case 2:");
+//                System.out.println(value);
                 adaptiveValues.add(1,value);
                 break;
-            case 3:
-                System.out.println("case 3:");
+            case 2:
                 value = aveSc();
-                System.out.println(value);
+//                System.out.println("case 3:");
+//                System.out.println(value);
                 adaptiveValues.add(2,value);
                 break;
             default:
@@ -71,7 +100,7 @@ public class Individual {
         }
     }
 
-    public void clacClusterSizes(){
+    public void calcClusterSizes(){
         Integer count;
         Integer index;
         for (int i = 0; i < geneSize ; i++) {

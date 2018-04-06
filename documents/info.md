@@ -20,7 +20,7 @@ $$I[i]_{distance} = I[i]_{distance}+\frac{I[i+1].m-I[i-1].m}{f_{m}^{max}-f_{m}^{
 ![NSGA-II flow chart](img/NSGA-II_flow_chart.png)<br>
 父代种群 $P_t$ 进行crossover和mutation生成新的子代种群 $Q_t$，新种群 $R_t = P_t \bigcup Q_t$ ，对 $R_t$ 进行非支配排序和拥挤距离排序，筛选出新的父代 $P_{t+1}$ ，筛选规则遵循： **个体 $i$ 优于个体 $j$ ，当且仅当， $i_{rank} < j_{rank}$ ，或者， $i_{rank} = j_{rank}$ 且 $i_{distance} > j_{distance}$**
 ## Pareto Front
-> 多目标规划中，由于存在目标之间的冲突和无法比较的现象，一个解在某个目标上是最好的，在其他的目标上可能比较差。Pareto 在1986 年提出多目标的解不受支配解(Non-dominated set)的概念。其定义为：假设任何二解S1 及S2 对所有目标而言，S1均优于S2，则我们称S1 支配S2，若S1 的解没有被其他解所支配，则S1 称为非支配解（不受支配解），也称Pareto解。这些非支配解的集合即所谓的Pareto Front。所有坐落在Pareto front 中的所有解皆不受Pareto Front 之外的解（以及Pareto Front 曲线以内的其它解）所支配，因此这些非支配解较其他解而言拥有最少的目标冲突，可提供决策者一个较佳的选择空间。在某个非支配解的基础上改进任何目标函数的同时，必然会削弱至少一个其他目标函数。
+> 多目标规划中，由于存在目标之间的冲突和无法比较的现象，一个解在某个目标上是最好的，在其他的目标上可能比较差。Pareto 在1986 年提出多目标的解不受支配解(Non-dominated set)的概念。其定义为：假设任何二解S1 及S2 对所有目标而言，S1均优于S2，则我们称S1 支配S2，若S1 的解没有被其他解所支配，则S1 称为非支配解（不受支配解），也称Pareto解。这d些非支配解的集合即所谓的Pareto Front。所有坐落在Pareto front 中的所有解皆不受Pareto Front 之外的解（以及Pareto Front 曲线以内的其它解）所支配，因此这些非支配解较其他解而言拥有最少的目标冲突，可提供决策者一个较佳的选择空间。在某个非支配解的基础上改进任何目标函数的同时，必然会削弱至少一个其他目标函数。
 
 ## Pareto Dominance Relation
 ![Pareto Dominance Relation](img/pareto_domainance_relation.png)
