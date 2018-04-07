@@ -17,9 +17,11 @@ public class Main {
         Integer iterationNum = 150;
         String filePath = "data/Iris set/Iris.data";
 //        String filePath = "data/Test1.data";
-        String outFilePath = "data/output/result2.data";
+        String outFilePath = "data/output/result.data";
 
         dataSet = readIrisData(filePath);
+        System.out.println("Read data, successful.");
+
           //check file input
 //        for (int i = 0; i < dataSet.size(); i++) {
 //            System.out.println("["+i+"]"+dataSet.get(i).sepalL+","+dataSet.get(i).sepalW+","+dataSet.get(i).petalL+","+dataSet.get(i).petalW+","+dataSet.get(i).type);
@@ -27,23 +29,28 @@ public class Main {
 
         Population population = new Population(true);
         NSGA_II nsga_ii = new NSGA_II();
+        System.out.println("Initialize, successful");
 
         for (int i = 0; i < iterationNum; i++) {
             population = nsga_ii.evolution(population);
-            System.out.println("-------"+i+"----------");
+            System.out.println("Iteration "+i+" : Done.");
+            System.out.println();
         }
+        System.out.println("Evolution complete!");
 
         fileOutput(population,outFilePath,iterationNum);
+        System.out.println("Output complete!");
 
-        Individual individual = population.individualList.get(0);
-        System.out.println("genes are as follows:");
-        for (int i = 0; i < individual.gene.size(); i++) {
-            System.out.println(i+":"+individual.gene.get(i));
-        }
 
-        System.out.println("DB:"+individual.adaptiveValues.get(0));
-        System.out.println("DI:"+individual.adaptiveValues.get(1));
-        System.out.println("SC:"+individual.adaptiveValues.get(2));
+//        Individual individual = population.individualList.get(0);
+//        System.out.println("genes are as follows:");
+//        for (int i = 0; i < individual.gene.size(); i++) {
+//            System.out.println(i+":"+individual.gene.get(i));
+//        }
+//
+//        System.out.println("DB:"+individual.adaptiveValues.get(0));
+//        System.out.println("DI:"+individual.adaptiveValues.get(1));
+//        System.out.println("SC:"+individual.adaptiveValues.get(2));
 
     }
 
@@ -88,13 +95,12 @@ public class Main {
             pw.println("Population size: "+population.size()+"; Iteration times:"+iterationNum+";");
             pw.println();
             for (int i = 0; i < population.size(); i++) {
-                pw.println("-----------"+i+"-----------");
+                pw.println("-----------solution "+i+"-----------");
                 Individual individual = population.individualList.get(i);
-                pw.println("Rank:"+individual.rank+"; Cluster number:"+individual.clusterCount+"; Adapt values:"+individual.adaptiveValues.get(0)+" "+individual.adaptiveValues.get(1)+" "+individual.adaptiveValues.get(2));
+                pw.println("Rank:"+individual.rank+"; Cluster number:"+individual.clusterCount+"; Adapt values:"+ -individual.adaptiveValues.get(0)+" "+individual.adaptiveValues.get(1)+" "+individual.adaptiveValues.get(2));
                 for (int j = 0; j < individual.gene.size(); j++) {
                     pw.println(j+"\t"+individual.gene.get(j));
                 }
-                pw.println("------------End------------");
             }
             pw.close();
         } catch (IOException e) {

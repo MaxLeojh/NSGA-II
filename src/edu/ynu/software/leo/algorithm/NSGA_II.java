@@ -10,14 +10,14 @@ public class NSGA_II {
     public Population evolution (Population population) {
         Population result = new Population();
         Population newPopulation = population.crossover();//选择交叉 变异 生成新种群
-        System.out.println("crossover!");
+//        System.out.println("crossover!");
         newPopulation.mutation();
-        System.out.println("mutation!");
+//        System.out.println("mutation!");
         newPopulation.individualList.addAll(population.individualList);//并集
         newPopulation.calcDistance();//计算个体拥挤距离
         Integer rank = 0;
         while (result.size() < Population.populationSize) {
-            System.out.println("rank"+rank);
+            System.out.println("rank "+rank);
             Population tempPopulation = new Population();
             tempPopulation.individualList = newPopulation.paretoFront();
             newPopulation.individualList.removeAll(tempPopulation.individualList);//去掉pareto front
