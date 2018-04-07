@@ -32,9 +32,6 @@ public class Individual {
     }
 
     public Individual(Boolean isInitialize) {
-        for (int i = 0; i < clusterCount; i++) {
-            clusterSizes.add(0);
-        }
         if (isInitialize) {
             for (int i = 0; i < geneSize; i++) {
                 Integer randomNum = (int)(Math.random() * clusterCount);
@@ -59,7 +56,7 @@ public class Individual {
     public boolean isDominatedBy(Individual individual) {
         for (int i = 0; i < objFunNum; i++) {
             //if there is one adaptive values that the individual is not better than this
-            if (individual.adaptiveValues.get(i) <= this.adaptiveValues.get(i))//the bigger the better.
+            if (individual.adaptiveValues.get(i) <= this.adaptiveValues.get(i))//the bigger the better[Vital].
                 return false;
         }
         return true;
@@ -73,19 +70,19 @@ public class Individual {
             case 0: //[Davies–Bouldin index]
                 value = DB();
 //                System.out.println("case 1:");
-//                System.out.println(value);
-                adaptiveValues.add(0,value);
+//                System.out.println("DB:"+value);
+                adaptiveValues.add(0,-value);// get negative of DB, cause the bigger the better!
                 break;
             case 1: //[Dunn index]
                 value = DI();
 //                System.out.println("case 2:");
-//                System.out.println(value);
+//                System.out.println("DI:"+value);
                 adaptiveValues.add(1,value);
                 break;
             case 2:
                 value = aveSc();
 //                System.out.println("case 3:");
-//                System.out.println(value);
+//                System.out.println("SC"+value);
                 adaptiveValues.add(2,value);
                 break;
             default:
@@ -103,6 +100,9 @@ public class Individual {
     public void calcClusterSizes(){
         Integer count;
         Integer index;
+        for (int i = 0; i < clusterCount; i++) {
+            clusterSizes.add(i,0);
+        }
         for (int i = 0; i < geneSize ; i++) {
             index = gene.get(i);
             count = clusterSizes.get(index);

@@ -9,7 +9,7 @@ public class NSGA_II {
 
     public Population evolution (Population population) {
         Population result = new Population();
-        Population newPopulation = population.crossover();//选择交叉 变异 生成新种群 //HERE IS THE BUG// Don't forget the A Value,the bigger the better
+        Population newPopulation = population.crossover();//选择交叉 变异 生成新种群
         System.out.println("crossover!");
         newPopulation.mutation();
         System.out.println("mutation!");

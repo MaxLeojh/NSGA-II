@@ -1,12 +1,10 @@
 package edu.ynu.software.leo.test;
+import edu.ynu.software.leo.algorithm.Individual;
 import edu.ynu.software.leo.algorithm.NSGA_II;
 import edu.ynu.software.leo.algorithm.Population;
 import edu.ynu.software.leo.dataSet.Iris;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +14,12 @@ import java.util.List;
 public class Main {
     public static List<Iris> dataSet;
     public static void main(String[] args) {
+        Integer iterationNum = 150;
         String filePath = "data/Iris set/Iris.data";
-        dataSet = readIrisData(filePath);
+//        String filePath = "data/Test1.data";
+        String outFilePath = "data/output/result2.data";
 
+        dataSet = readIrisData(filePath);
           //check file input
 //        for (int i = 0; i < dataSet.size(); i++) {
 //            System.out.println("["+i+"]"+dataSet.get(i).sepalL+","+dataSet.get(i).sepalW+","+dataSet.get(i).petalL+","+dataSet.get(i).petalW+","+dataSet.get(i).type);
@@ -27,12 +28,22 @@ public class Main {
         Population population = new Population(true);
         NSGA_II nsga_ii = new NSGA_II();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < iterationNum; i++) {
             population = nsga_ii.evolution(population);
             System.out.println("-------"+i+"----------");
         }
 
+        fileOutput(population,outFilePath,iterationNum);
 
+        Individual individual = population.individualList.get(0);
+        System.out.println("genes are as follows:");
+        for (int i = 0; i < individual.gene.size(); i++) {
+            System.out.println(i+":"+individual.gene.get(i));
+        }
+
+        System.out.println("DB:"+individual.adaptiveValues.get(0));
+        System.out.println("DI:"+individual.adaptiveValues.get(1));
+        System.out.println("SC:"+individual.adaptiveValues.get(2));
 
     }
 
@@ -69,6 +80,28 @@ public class Main {
             }
         }
         return irisData;
+    }
+
+    public static void fileOutput(Population population, String filePath, Integer iterationNum) {
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(filePath));
+            pw.println("Population size: "+population.size()+"; Iteration times:"+iterationNum+";");
+            pw.println();
+            for (int i = 0; i < population.size(); i++) {
+                pw.println("-----------"+i+"-----------");
+                Individual individual = population.individualList.get(i);
+                pw.println("Rank:"+individual.rank+"; Cluster number:"+individual.clusterCount+"; Adapt values:"+individual.adaptiveValues.get(0)+" "+individual.adaptiveValues.get(1)+" "+individual.adaptiveValues.get(2));
+                for (int j = 0; j < individual.gene.size(); j++) {
+                    pw.println(j+"\t"+individual.gene.get(j));
+                }
+                pw.println("------------End------------");
+            }
+            pw.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
 }
