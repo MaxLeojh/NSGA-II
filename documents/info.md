@@ -92,7 +92,23 @@ $$2km$$
 $$kC_{m}^{2}\sum_{i=0}^{m-2}A_{m-2}^{i}$$
 次最大值计算。
 $$kC_{m}^{2}$$
-次最小值计算。
+次最小值计算。 <br>
+<br>
+**然鹅，new-index 是一种对基于密度的数据集聚类评价有很好的效果的指标** <br>
+
+在无向图 $G(V,E,W)$ 中，顶点集为 $V=\{x_1,x_2,...,x_n\}$ ，边的集合为$E=\{e_{ij}\}$，$E$ 的权重集合为$W=\{w_{ij}|e_{ij}\in E\}$，设$G$ 上的两个定点$x_i$和$x_j$之间的路经集合为$path(x_i,x_j)=\{path_1,path_2,...,path_k,...,path_p\}$，$p$为$x_i$和$x_j$间的路径数量，其中一条路径$path_k$上的边标记为$e_1^k,e_2^k,...,e_{n_k}^k$，而将对应的权值记为$w_1^k,w_2^k,...,w_{n_k}^k$，则$x_i$和$x_j$间的连通距离定义如下：
+$$d_{connect}(x_i,x_j)=\min_{k=1}^p\max_{m=1}^{n_k}w_m^k$$
+其中$n_k$表示$x_i$和$x_j$之间的路径$path_k$所包含的边数。<br>
+定义类簇$c$的类内紧致性：
+$$compact(c)=\frac{1}{\max \limits_{x,y\in c}\{d_{connect}(x,y)\}}$$
+定义类间距离：
+$$dist(c_i,c_j)=\min \limits_{x\in c_i,y\in c_j}d(x,y)$$
+单个类$c_i$的评价指标定义如下：
+$$index(c)=\min \left(dist(c_i,c_j)\times \left(\frac{|c_i|\times compact(c_i)+|c_j|\times compact(c_j)}{|c_i|+|c_j|}\right) \right)$$
+其中 $|c|$ 表示类$c$中数据点的个数。<br>
+
+对整个聚类结果$C=\{c_1,c_2,...,c_k\}$ 的有效性指标定义：
+$$new-index(C)=\min_{i=1}^{k}index(c_i)$$
 
 ## Reference
 * [从NSGA到 NSGA II](http://www.cnblogs.com/bnuvincent/p/52s68786.html)
@@ -104,3 +120,11 @@ $$kC_{m}^{2}$$
 * [Wikipedia-Cluster analysis](https://en.wikipedia.org/wiki/Cluster_analysis#Internal_evaluation)
 * [浅说Davies-Bouldin指数（DBI）](http://blog.sina.com.cn/s/blog_65c8baf901016flh.html)
 * [Github Repository](https://github.com/MaxLeojh/NSGA-II)
+<br>
+new
+<br>
+* [常见的六大聚类算法](https://blog.csdn.net/Katherine_hsr/article/details/79382249)
+* [UC Irvine Machine Learning Repository](http://archive.ics.uci.edu/ml/index.php)
+* [用于数据挖掘的聚类算法有哪些，各有何优势？](https://www.zhihu.com/question/34554321)
+* [基于密度聚类的DBSCAN和kmeans算法比较](https://www.cnblogs.com/hdu-2010/p/4621258.html)
+* [求数据挖掘算法中聚类算法的常用合成数据集](http://muchong.com/html/201104/3074725.html)

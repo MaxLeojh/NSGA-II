@@ -13,14 +13,28 @@ import java.util.List;
  */
 public class Main {
     public static List<Iris> dataSet;
+    public static Double disMatrix[][];
     public static void main(String[] args) {
         Integer iterationNum = 150;
-        String filePath = "data/Iris set/Iris.data";
-//        String filePath = "data/Test1.data";
-        String outFilePath = "data/output/result.data";
+//        String filePath = "data/Iris set/Iris.data";
+        String filePath = "data/test/DBscanTest.data";
 
-        dataSet = readIrisData(filePath);
+
+        String outFilePath = "data/output/DBscanResult2.data";
+
+        dataSet = readIrisData(filePath); //read data from file
         System.out.println("Read data, successful.");
+        Integer dataSetSize = dataSet.size();
+
+        //calc the distance matrix
+        disMatrix = new Double[dataSetSize][dataSetSize];
+        for (int i = 0; i < dataSetSize; i++) {
+            for (int j = 0; j < i; j++) {
+                Double dis = dataSet.get(i).distance(dataSet.get(j));
+                disMatrix[i][j] = dis;
+                disMatrix[j][i] = dis;
+            }
+        }
 
           //check file input
 //        for (int i = 0; i < dataSet.size(); i++) {

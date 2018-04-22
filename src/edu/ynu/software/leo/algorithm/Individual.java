@@ -1,6 +1,7 @@
 package edu.ynu.software.leo.algorithm;
 
 import edu.ynu.software.leo.dataSet.Iris;
+import edu.ynu.software.leo.test.CombineAndArrangement;
 import edu.ynu.software.leo.test.Main;
 
 import java.util.ArrayList;
@@ -12,12 +13,12 @@ import java.util.List;
  */
 
 public class Individual {
-    public static final Integer geneSize = 150; // for Iris data Set, Size is 150
+    public static final Integer geneSize = 200; // for Iris data Set, Size is 150
     public static final Integer objFunNum = 3; // the number of object functions
 
     //Source attributes
     public List<Integer> gene = new ArrayList<>(); //one kind of gene, as well as one kind of cluster way
-    public Integer clusterCount = 3; //the number of clusters;
+    public Integer clusterCount = 2; //the number of clusters;
 
     //Derived attributes
     public List<Double> adaptiveValues = new ArrayList<>();
@@ -202,7 +203,8 @@ public class Individual {
             if (gene.get(j) == i) cluster.add(j); //find cluster i, put them into ArrayList 'cluster'
         for (int j = 0; j < cluster.size(); j++) { //calculate the distance of each pair
             for (int k = 0; k < j ; k++) {
-                Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(cluster.get(k)));
+//                Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(cluster.get(k)));
+                Double temp = Main.disMatrix[cluster.get(j)][cluster.get(k)];
                 if (temp > result) result = temp;
             }
         }
@@ -217,7 +219,8 @@ public class Individual {
             if (gene.get(j) == i) cluster.add(j); //find cluster i, put them into ArrayList 'cluster'
         for (int j = 0; j < cluster.size(); j++) {
             for (int k = 0; k < j ; k++) {
-                Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(cluster.get(k))); //calculate the distance of each pair
+//                Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(cluster.get(k))); //calculate the distance of each pair
+                Double temp = Main.disMatrix[cluster.get(j)][cluster.get(k)];
                 result += temp;
                 count++;
             }
@@ -252,7 +255,8 @@ public class Individual {
         }
         for (int k = 0; k < clusterI.size(); k++) {
             for (int l = 0; l < clusterJ.size(); l++) {
-                Double temp = Main.dataSet.get(clusterI.get(k)).distance(Main.dataSet.get(clusterJ.get(l)));
+//                Double temp = Main.dataSet.get(clusterI.get(k)).distance(Main.dataSet.get(clusterJ.get(l)));
+                Double temp = Main.disMatrix[clusterI.get(k)][clusterJ.get(l)];
                 if (temp < result) result = temp;
             }
         }
@@ -269,7 +273,8 @@ public class Individual {
         }
         for (int k = 0; k < clusterI.size(); k++) {
             for (int l = 0; l < clusterJ.size(); l++) {
-                Double temp = Main.dataSet.get(clusterI.get(k)).distance(Main.dataSet.get(clusterJ.get(l)));
+//                Double temp = Main.dataSet.get(clusterI.get(k)).distance(Main.dataSet.get(clusterJ.get(l)));
+                Double temp = Main.disMatrix[clusterI.get(k)][clusterJ.get(l)];
                 if (temp > result) result = temp;
             }
         }
@@ -350,6 +355,7 @@ public class Individual {
             if (gene.get(j) == clusterNo) cluster.add(j); //find cluster clusterNum, put them into ArrayList 'cluster'
         for (int j = 0; j < cluster.size(); j++) {
             Double temp = Main.dataSet.get(cluster.get(j)).distance(Main.dataSet.get(sampleNo));
+//            Double temp = Main.disMatrix[cluster.get(j)][sampleNo];
             result += temp;
             count++;
         }
@@ -373,6 +379,105 @@ public class Individual {
         result = result/geneSize;
         return result;
     }
+
+    /**
+     * <END>[Silhouette coefficient]
+     */
+
+    /**
+     * <BEGIN>[new-index]
+     * based on a paper.
+     */
+
+    public Double compact(Integer clusterNo) {
+        Integer clusterSize = clusterSizes.get(clusterNo);
+        if (clusterSize == 1) return 0d;
+        else if (clusterSize == 2) return maxDis(clusterNo);
+        ArrayList<ArrayList<Integer>> patten = getPatten(clusterSize);
+        ArrayList<Integer> Cluster = new ArrayList<>();
+        for (int i = 0; i < gene.size(); i++) {
+            if (gene.get(i)==clusterNo) Cluster.add(i);
+        }
+        Double result = 0d;
+        for (int i = 0; i < clusterSize; i++) {
+            for (int j = 0; j < i; j++) {
+                Integer tempi = Cluster.get(i);
+                Integer tempj = Cluster.get(j);
+                ArrayList<Integer> currentCluster = new ArrayList<>(Cluster);
+                currentCluster.remove(i);
+                currentCluster.remove(j);
+                currentCluster.add(0,tempi);
+                currentCluster.add(0,tempj);
+                Double dConnect = Double.MAX_VALUE;
+                for (int k = 0; k < patten.size(); k++) {
+                    ArrayList<Integer> curPatten = patten.get(k);
+                    Double maxDistance = 0d;
+                    for (int l = 0; l < curPatten.size()-1; l++) {
+                        Double tempDis = Main.disMatrix[currentCluster.get(curPatten.get(l))][currentCluster.get(curPatten.get(l+1))];
+                        if (tempDis > maxDistance) maxDistance = tempDis;
+                    }
+                    if (maxDistance < dConnect) dConnect = maxDistance;
+                }
+                if (dConnect > result) result = dConnect;
+
+            }
+        }
+
+        return 1/result;
+    }
+
+    public Double dist(Integer ci, Integer cj) {
+        return closestDis(ci,cj);
+    }
+
+    public Double index(Integer ci) {
+        Double result = Double.MAX_VALUE;
+        for (int i = 0; i < clusterCount; i++) {
+            if (i != ci) {
+                Integer sizeI = clusterSizes.get(i);
+                Integer sizeCi = clusterSizes.get(ci);
+                Double temp = dist(ci,i)*((sizeCi*compact(ci)+sizeI*compact(i))/(sizeCi+sizeI));
+                if (temp < result) result = temp;
+            }
+        }
+        return result;
+    }
+
+    public Double newIndex() {
+        Double result = Double.MAX_VALUE;
+        for (int i = 0; i < clusterCount; i++) {
+            Double temp = index(i);
+            if (temp < result) result = temp;
+        }
+
+        return result;
+    }
+
+    public ArrayList<ArrayList<Integer>> getPatten(Integer clusterSize) {
+        if (clusterSize < 3) return null;
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        ArrayList<Integer> temp = new ArrayList<>();
+        temp.add(0);
+        temp.add(1);
+        result.add(temp);
+        Integer size = clusterSize-2;
+        ArrayList<Integer> array = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            array.add(2+i);
+        }
+        Integer [] com = (Integer []) (array.toArray(new Integer[size]));
+        CombineAndArrangement caa = new CombineAndArrangement();
+        caa.arrangement(size,com);
+        for (int i = 0; i < caa.result.size(); i++) {
+            ArrayList<Integer> tmp = new ArrayList<>();
+            tmp.add(0);
+            tmp.addAll(caa.result.get(i));
+            tmp.add(1);
+            result.add(tmp);
+        }
+        return result;
+    }
+
 
     /**
      * <END>[Silhouette coefficient]

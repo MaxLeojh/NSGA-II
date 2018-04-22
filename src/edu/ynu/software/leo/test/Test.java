@@ -3,17 +3,31 @@ package edu.ynu.software.leo.test;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by maxleo on 17-11-30.
  */
 public class Test {
     public static void main(String[] args) {
-        Double number = -15.0;
-        System.out.println(-number);
-        String filePath = "data/output/result1.data";
-        WriteStringToFile3(filePath);
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        arrayList.add(0);
+        arrayList.add(1);
+        arrayList.add(2);
+        arrayList.add(3);
+        arrayList.add(4);
+        arrayList.add(5);
+        System.out.println(arrayList.toString());
+        Integer tempi = arrayList.get(2);
+        Integer tempj = arrayList.get(4);
+        arrayList.remove(2);
+        arrayList.remove(4);
+        arrayList.add(0,tempi);
+        arrayList.add(0,tempj);
+        System.out.println(arrayList.toString());
     }
+
 
     public static void WriteStringToFile3(String filePath) {
         try {
@@ -27,4 +41,30 @@ public class Test {
             e.printStackTrace();
         }
     }
+
+//    public static ArrayList<ArrayList<Integer>> patten(Integer clusterSize) {
+//        if (clusterSize < 3) return null;
+//        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+//        ArrayList<Integer> temp = new ArrayList<>();
+//        temp.add(0);
+//        temp.add(1);
+//        result.add(temp);
+//        Integer size = clusterSize-2;
+//        ArrayList<Integer> array = new ArrayList<>();
+//        for (int i = 0; i < size; i++) {
+//            array.add(2+i);
+//        }
+//        Integer [] com = (Integer []) (array.toArray(new Integer[size]));
+//        CombineAndArrangement caa = new CombineAndArrangement();
+//        caa.arrangement(size,com);
+//        for (int i = 0; i < caa.result.size(); i++) {
+//            ArrayList<Integer> tmp = new ArrayList<>();
+//            tmp.add(0);
+//            tmp.addAll(caa.result.get(i));
+//            tmp.add(1);
+//            result.add(tmp);
+//        }
+//        return result;
+//    }
+
 }
