@@ -76,7 +76,7 @@ $$Sc \left(i\right)=\frac{b \left(i\right)-a\left(i\right)}{\max \{a \left(i\rig
 所以 $Sc(i)$ 只是针对其中一个样本 $i$ 的评价，对所有的 $Sc(i)$ 求平均才能得到所有的。由此可见，**其计算量也是不小** 。<br>
 可见轮廓系数的值是介于 $[-1,1]$ ，越趋近于1代表内聚度和分离度都相对较优。<br>
 <br>
-**ref from wikipedia**
+*ref from wikipedia*
 > Assume the data have been clustered via any technique, such as k-means, into $k$ clusters. For each datum $i$, let $a(i)$ be the average distance between $i$ and all other data within the same cluster. We can interpret $a(i)$ as a measure of how well $i$ is assigned to its cluster (the smaller the value, the better the assignment). We then define the average dissimilarity of point $i$ to a cluster $c$ as the average of the distance from $i$ to all points in $c$.
 >
 > Let $b(i)$ be the lowest average distance of $i$ to all points in any other cluster, of which $i$ is not a member. The cluster with this lowest average dissimilarity is said to be the "neighbouring cluster" of $i$ because it is the next best fit cluster for point $i$.
@@ -109,6 +109,8 @@ $$index(c)=\min \left(dist(c_i,c_j)\times \left(\frac{|c_i|\times compact(c_i)+|
 
 对整个聚类结果$C=\{c_1,c_2,...,c_k\}$ 的有效性指标定义：
 $$new-index(C)=\min_{i=1}^{k}index(c_i)$$
+
+#果然，时间复杂度太高。！！放弃！
 
 ## Reference
 * [从NSGA到 NSGA II](http://www.cnblogs.com/bnuvincent/p/52s68786.html)

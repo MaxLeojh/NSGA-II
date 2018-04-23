@@ -1,5 +1,7 @@
 package edu.ynu.software.leo.test;
 
+import edu.ynu.software.leo.algorithm.CombineAndArrangement;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,21 +13,7 @@ import java.util.ArrayList;
  */
 public class Test {
     public static void main(String[] args) {
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(0);
-        arrayList.add(1);
-        arrayList.add(2);
-        arrayList.add(3);
-        arrayList.add(4);
-        arrayList.add(5);
-        System.out.println(arrayList.toString());
-        Integer tempi = arrayList.get(2);
-        Integer tempj = arrayList.get(4);
-        arrayList.remove(2);
-        arrayList.remove(4);
-        arrayList.add(0,tempi);
-        arrayList.add(0,tempj);
-        System.out.println(arrayList.toString());
+//        patten(50);
     }
 
 

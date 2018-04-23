@@ -1,7 +1,6 @@
 package edu.ynu.software.leo.algorithm;
 
 import edu.ynu.software.leo.dataSet.Iris;
-import edu.ynu.software.leo.test.CombineAndArrangement;
 import edu.ynu.software.leo.test.Main;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.List;
 
 public class Individual {
     public static final Integer geneSize = 200; // for Iris data Set, Size is 150
-    public static final Integer objFunNum = 3; // the number of object functions
+    public static final Integer objFunNum = 1; // the number of object functions
 
     //Source attributes
     public List<Integer> gene = new ArrayList<>(); //one kind of gene, as well as one kind of cluster way
@@ -52,15 +51,29 @@ public class Individual {
         calcCentroids();
 
         calcAllAV();
+
     }
 
     public boolean isDominatedBy(Individual individual) {
         for (int i = 0; i < objFunNum; i++) {
             //if there is one adaptive values that the individual is not better than this
-            if (individual.adaptiveValues.get(i) <= this.adaptiveValues.get(i))//the bigger the better[Vital].
+            if (individual.adaptiveValues.get(i) <= this.adaptiveValues.get(i)) //the bigger the better[Vital].
                 return false;
         }
         return true;
+    }
+
+    public void calcAllAV() {
+//        for (int i = 0; i < objFunNum; i++) {
+//            calcAV(i);
+//        }
+
+        calcAV(0);
+
+        calcAV(4);
+
+//        calcAV(2);
+
     }
 
     //calculate the adaptive values
@@ -72,19 +85,31 @@ public class Individual {
                 value = DB();
 //                System.out.println("case 1:");
 //                System.out.println("DB:"+value);
-                adaptiveValues.add(0,-value);// get negative of DB, cause the bigger the better!
+                adaptiveValues.add(-value);// get negative of DB, cause the bigger the better!
                 break;
             case 1: //[Dunn index]
                 value = DI();
 //                System.out.println("case 2:");
 //                System.out.println("DI:"+value);
-                adaptiveValues.add(1,value);
+                adaptiveValues.add(value);
                 break;
             case 2:
-                value = aveSc();
+                value = aveSc();//[Silhouette coefficient]
 //                System.out.println("case 3:");
 //                System.out.println("SC"+value);
-                adaptiveValues.add(2,value);
+                adaptiveValues.add(value);
+                break;
+            case 3:
+                value = newIndex();//[new-index]
+//                System.out.println("case 3:");
+//                System.out.println("SC"+value);
+                adaptiveValues.add(value);
+                break;
+            case 4:
+                value = minCoveredDis();//[new-index]
+//                System.out.println("case 3:");
+//                System.out.println("SC"+value);
+                adaptiveValues.add(value);
                 break;
             default:
                 System.out.println("case index ERROR!");
@@ -92,11 +117,6 @@ public class Individual {
         }
     }
 
-    public void calcAllAV() {
-        for (int i = 0; i < objFunNum; i++) {
-            calcAV(i);
-        }
-    }
 
     public void calcClusterSizes(){
         Integer count;
@@ -390,9 +410,11 @@ public class Individual {
      */
 
     public Double compact(Integer clusterNo) {
+        System.out.println("inside the compact");
         Integer clusterSize = clusterSizes.get(clusterNo);
         if (clusterSize == 1) return 0d;
         else if (clusterSize == 2) return maxDis(clusterNo);
+        System.out.println("clustersize:"+clusterSize);
         ArrayList<ArrayList<Integer>> patten = getPatten(clusterSize);
         ArrayList<Integer> Cluster = new ArrayList<>();
         for (int i = 0; i < gene.size(); i++) {
@@ -466,8 +488,10 @@ public class Individual {
             array.add(2+i);
         }
         Integer [] com = (Integer []) (array.toArray(new Integer[size]));
+        System.out.println("debug 1");
         CombineAndArrangement caa = new CombineAndArrangement();
         caa.arrangement(size,com);
+        System.out.println("debug 2");
         for (int i = 0; i < caa.result.size(); i++) {
             ArrayList<Integer> tmp = new ArrayList<>();
             tmp.add(0);
@@ -481,6 +505,25 @@ public class Individual {
 
     /**
      * <END>[Silhouette coefficient]
+     */
+
+    /**
+     * <BEGIN>[min-cover-distance]
+     * based on a paper.
+     */
+    public Double minCoveredDis() {
+        Double result = 0d;
+        for (int i = 0; i < clusterCount; i++) {
+            CoverDistance coverDistance = new CoverDistance(gene,i,1.6,0.0,0.01);
+            Double temp = coverDistance.calcDis();
+            result += temp;
+        }
+        result = result/clusterCount;
+        return -result;
+    }
+
+    /**
+     * <END>[min-cover-distance]
      */
 
 }

@@ -25,9 +25,13 @@ public class Main {
         dataSet = readIrisData(filePath); //read data from file
         System.out.println("Read data, successful.");
         Integer dataSetSize = dataSet.size();
+        System.out.println("Data set size is:"+dataSetSize);
 
         //calc the distance matrix
         disMatrix = new Double[dataSetSize][dataSetSize];
+        for (int i = 0; i < dataSetSize; i++) {
+            disMatrix[i][i] = 0d;
+        }
         for (int i = 0; i < dataSetSize; i++) {
             for (int j = 0; j < i; j++) {
                 Double dis = dataSet.get(i).distance(dataSet.get(j));
@@ -36,12 +40,15 @@ public class Main {
             }
         }
 
+        System.out.println("Distance calculation complete!");
+
           //check file input
 //        for (int i = 0; i < dataSet.size(); i++) {
 //            System.out.println("["+i+"]"+dataSet.get(i).sepalL+","+dataSet.get(i).sepalW+","+dataSet.get(i).petalL+","+dataSet.get(i).petalW+","+dataSet.get(i).type);
 //        }
 
         Population population = new Population(true);
+        System.out.println("new population complete!");
         NSGA_II nsga_ii = new NSGA_II();
         System.out.println("Initialize, successful");
 
@@ -111,7 +118,7 @@ public class Main {
             for (int i = 0; i < population.size(); i++) {
                 pw.println("-----------solution "+i+"-----------");
                 Individual individual = population.individualList.get(i);
-                pw.println("Rank:"+individual.rank+"; Cluster number:"+individual.clusterCount+"; Adapt values:"+ -individual.adaptiveValues.get(0)+" "+individual.adaptiveValues.get(1)+" "+individual.adaptiveValues.get(2));
+//                pw.println("Rank:"+individual.rank+"; Cluster number:"+individual.clusterCount+"; Adapt values:"+ -individual.adaptiveValues.get(0)+" "+individual.adaptiveValues.get(1)+" "+individual.adaptiveValues.get(2));
                 for (int j = 0; j < individual.gene.size(); j++) {
                     pw.println(j+"\t"+individual.gene.get(j));
                 }

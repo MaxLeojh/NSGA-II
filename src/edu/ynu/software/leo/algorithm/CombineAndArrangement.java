@@ -1,29 +1,17 @@
-package edu.ynu.software.leo.test;
+package edu.ynu.software.leo.algorithm;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by hdwang on 2017-10-25.
  * 组合、排列、可重复排列
  */
+
 public class CombineAndArrangement {
 
     private ArrayList<Integer> tmpArr = new ArrayList<>();
     public static ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-//    public static void main(String[] args) {
-//        int [] com = {1,2,3};
-//        int k = 3;
-//        if(k > com.length || com.length <= 0){
-//            return ;
-//        }
-//        System.out.println("\n排列结果：");
-//        arrangement(k,com);
-//        for (int i = 0; i < out.size(); i++) {
-//            System.out.println(out.get(i).toString());
-//        }
-//    }
 
     /**
      * 排列
@@ -35,7 +23,7 @@ public class CombineAndArrangement {
         if(k == 1){
             for (int i = 0; i < arr.length; i++) {
                 tmpArr.add(arr[i]);
-//                System.out.println(tmpArr.toString());
+                System.out.println(tmpArr.toString());
                 result.add(new ArrayList<>(tmpArr));
                 tmpArr.remove((Object)arr[i]);
             }
