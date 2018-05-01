@@ -112,6 +112,9 @@ $$new-index(C)=\min_{i=1}^{k}index(c_i)$$
 
 #果然，时间复杂度太高。！！放弃！
 
+###自己发明基于密度的评价方式起名字：最小覆盖距离。
+就是利用flood fill思想，从一个点出发，以覆盖距离去覆盖类内的点，利用二分法，看看最小的覆盖距离是多少才能把所有点都覆盖。越小越好。基于DBscan思想来搞的。
+
 ## Reference
 * [从NSGA到 NSGA II](http://www.cnblogs.com/bnuvincent/p/52s68786.html)
 * [知乎-谁能通俗的讲解一下NSGA-II多目标遗传算法？](https://www.zhihu.com/question/26990498)
