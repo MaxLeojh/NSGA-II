@@ -12,12 +12,12 @@ import java.util.List;
  */
 
 public class Individual {
-    public static final Integer geneSize = 200; // for Iris data Set, Size is 150
-    public static final Integer objFunNum = 1; // the number of object functions
+    public static final Integer geneSize = 178; // 150 for Iris ,178 for Wine
+    public static final Integer objFunNum = 3; // the number of object functions
 
     //Source attributes
     public List<Integer> gene = new ArrayList<>(); //one kind of gene, as well as one kind of cluster way
-    public Integer clusterCount = 2; //the number of clusters;
+    public Integer clusterCount = 3; //the number of clusters;
 
     //Derived attributes
     public List<Double> adaptiveValues = new ArrayList<>();
@@ -64,13 +64,10 @@ public class Individual {
     }
 
     public void calcAllAV() {
-//        for (int i = 0; i < objFunNum; i++) {
-//            calcAV(i);
-//        }
+        for (int i = 0; i < objFunNum; i++) {
+            calcAV(i);
+        }
 
-        calcAV(0);
-
-        calcAV(4);
 
 //        calcAV(2);
 

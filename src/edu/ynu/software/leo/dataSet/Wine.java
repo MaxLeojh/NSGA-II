@@ -1,25 +1,22 @@
 package edu.ynu.software.leo.dataSet;
 
-/**
- * Created by maxleo on 17-11-16.
- */
-public class Iris {
+public class Wine {
     /**
-     *
-     1) Alcohol
-     2) Malic acid
-     3) Ash
-     4) Alcalinity of ash
-     5) Magnesium
-     6) Total phenols
-     7) Flavanoids
-     8) Nonflavanoid phenols
-     9) Proanthocyanins
-     10)Color intensity
-     11)Hue
-     12)OD280/OD315 of diluted Iriss
-     13)Proline
-     */
+    *
+    1) Alcohol
+ 	2) Malic acid
+ 	3) Ash
+	4) Alcalinity of ash
+ 	5) Magnesium
+	6) Total phenols
+ 	7) Flavanoids
+ 	8) Nonflavanoid phenols
+ 	9) Proanthocyanins
+	10)Color intensity
+ 	11)Hue
+ 	12)OD280/OD315 of diluted wines
+ 	13)Proline
+ 	*/
     public Double Alcohol;
     public Double Malic;
     public Double Ash;
@@ -36,7 +33,7 @@ public class Iris {
 
     public String type;
 
-    public Double distance(Iris obj) {
+    public Double distance(Wine obj) {
         return
                 Math.sqrt(Math.pow(this.Alcohol-obj.Alcohol,2)
                         + Math.pow(this.Malic-obj.Malic,2)
@@ -54,7 +51,7 @@ public class Iris {
                 );
     }
 
-    public Iris plus(Iris obj) {
+    public Wine plus(Wine obj) {
         this.Alcohol += obj.Alcohol;
         this.Malic += obj.Malic;
         this.Ash += obj.Ash;
@@ -72,7 +69,7 @@ public class Iris {
         return this;
     }
 
-    public Iris divideBy(Integer divisor) {
+    public Wine divideBy(Integer divisor) {
         this.Alcohol /= divisor;
         this.Malic /= divisor;
         this.Ash /= divisor;
@@ -90,7 +87,7 @@ public class Iris {
         return this;
     }
 
-    public Iris(Double Alcohol, Double Malic, Double Ash, Double Alcalinity, Double Magnesium, Double phenols, Double Nonflavanoid, Double Proanthocyanins,Double Color, Double Hue, Double diluted, Double Proline, Double Flavanoids, String type) {
+    public Wine(Double Alcohol, Double Malic, Double Ash, Double Alcalinity, Double Magnesium, Double phenols, Double Nonflavanoid, Double Proanthocyanins,Double Color, Double Hue, Double diluted, Double Proline, Double Flavanoids, String type) {
         this.Alcohol = Alcohol;
         this.Malic = Malic;
         this.Ash = Ash;
@@ -107,7 +104,7 @@ public class Iris {
         this.type = type;
     }
 
-    public Iris() {
+    public Wine() {
 
 
         this.Alcohol = 0.0;

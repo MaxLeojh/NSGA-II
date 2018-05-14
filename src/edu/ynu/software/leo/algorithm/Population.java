@@ -6,7 +6,7 @@ import java.util.*;
  * Created by maxleo on 17-11-2.
  */
 public class Population {
-    public static final Integer populationSize = 300;
+    public static final Integer populationSize = 400;
     public static final Double crossRate = 0.5;
     public static final Double mutationRate = 0.001;
 
