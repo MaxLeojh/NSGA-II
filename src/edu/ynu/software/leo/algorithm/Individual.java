@@ -5,6 +5,7 @@ import edu.ynu.software.leo.test.Main;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  */
 
 public class Individual {
-    public static final Integer geneSize = 178; // 150 for Iris ,178 for Wine
+    public static final Integer geneSize = 150; // 150 for Iris ,178 for Wine
     public static final Integer objFunNum = 3; // the number of object functions
 
     //Source attributes
@@ -522,5 +523,72 @@ public class Individual {
     /**
      * <END>[min-cover-distance]
      */
+
+    public Integer farthestPoint(Integer i) {
+        ArrayList<Integer> cluster = new ArrayList<>();
+        Double maxDis = 0d;
+        Integer result = Integer.MAX_VALUE;
+        for (int j = 0; j < geneSize; j++)
+            if (gene.get(j) == i) cluster.add(j); //find cluster i, put them into ArrayList 'cluster'
+        for (int j = 0; j < cluster.size(); j++) {
+            Double temp = centroids.get(i).distance(Main.dataSet.get(cluster.get(j)));
+            if (temp >= maxDis) {
+                maxDis = temp;
+                result = cluster.get(j);
+            }
+        }
+        return result;
+    }
+
+    public void geneGuide() {
+        for (int i = 0; i < clusterCount; i++) {
+            Integer geneNo = farthestPoint(i);
+            KNN(geneNo, 10);
+        }
+    }
+
+    public void KNN(Integer geneNo, Integer N){ //be careful of N, which can not be bigger than the size of gene
+        Integer[] counter = new Integer[clusterCount];
+        Integer comp = Integer.MIN_VALUE;
+        Integer newLabel = Integer.MAX_VALUE;
+        for (int i = 0; i < clusterCount; i++) {
+            counter[i] = 0;
+        }
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < geneSize; i++) {
+            list.add(i);
+        }
+
+        list.sort(new distanceComparator(geneNo)); //Ascending order
+
+        for (int i = 0; i < N; i++) {
+            Integer clusterLabel = gene.get(list.get(i));
+            counter[clusterLabel] ++;
+        }
+
+        for (int i = 0; i < clusterCount; i++) {
+            if (counter[i] > comp) {
+                comp = counter[i];
+                newLabel = i;
+            }
+        }
+
+        gene.set(geneNo,newLabel);
+    }
+
+    static class distanceComparator implements Comparator {
+        public Integer index0;
+
+        public distanceComparator(Integer index0) {
+            this.index0 = index0;
+        }
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            Integer index1 = (Integer) o1;
+            Integer index2 = (Integer) o2;
+            return Main.disMatrix[index0][index1].compareTo(Main.disMatrix[index0][index2]);//Ascending order
+        }
+    }
 
 }

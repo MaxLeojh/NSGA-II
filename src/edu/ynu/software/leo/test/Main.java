@@ -16,12 +16,15 @@ public class Main {
     public static List<Iris> dataSet;
     public static Double disMatrix[][];
     public static void main(String[] args) {
-        Integer iterationNum = 100;
-//        String filePath = "data/Iris set/Iris.data";
-        String filePath = "data/Wine set/Wine.data"; //exchange with the upper line! geneSize in Individual to go!
+        Integer iterationNum = 50;
+        String outFilePath = "data/output/irisEliteOut.data";
+        String filePath = "data/Iris set/Iris.data";
+//        String filePath = "data/Wine set/Wine.data"; //exchange with the upper line! geneSize in Individual to go!
 //        String filePath = "data/test/DBscanTest.data";
 
-        String outFilePath = "data/output/WineOut.data";
+        String elitePath = "data/Elite gene/elite.data";
+
+
 
         System.out.println("Initial done!");
         dataSet = readIrisData(filePath); //read data from file
@@ -51,12 +54,18 @@ public class Main {
 //        }
 
         Population population = new Population(true);
+        population.eliteInjection(elitePath); //inject elite individual
         System.out.println("new population complete!");
         NSGA_II nsga_ii = new NSGA_II();
         System.out.println("Initialize, successful");
 
         for (int i = 0; i < iterationNum; i++) {
             population = nsga_ii.evolution(population);
+//-------------------Gene Guide----------------------------------------------------
+//            if (i < 10) {
+//                population.geneGuide();
+//            }
+//----------------------------------------------------------------------------------
             System.out.println("Iteration "+i+" : Done.");
             System.out.println();
         }
@@ -78,45 +87,10 @@ public class Main {
 
     }
 
-//    public static List<Iris> readIrisData(String fileName) {
-//        File file = new File(fileName);
-//        BufferedReader reader = null;
-//        List<Iris> irisData = new ArrayList<>();
-//        try {
-//            reader = new BufferedReader(new FileReader(file));
-//            String tempString = null;
-//            int line = 1;
-//            while ((tempString = reader.readLine()) != null) {
-//                // 显示行号
-//                String[] temp = tempString.split(",");
-//                Iris iris = new Iris();
-//                iris.sepalL = Double.parseDouble(temp[0]);
-//                iris.sepalW = Double.parseDouble(temp[1]);
-//                iris.petalL = Double.parseDouble(temp[2]);
-//                iris.petalW = Double.parseDouble(temp[3]);
-//                iris.type = temp[4];
-//                irisData.add(iris);
-//            }
-//            reader.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (reader != null) {
-//                try {
-//                    reader.close();
-//                } catch (IOException e1) {
-//                    e1.printStackTrace();
-//
-//                }
-//            }
-//        }
-//        return irisData;
-//    }
-
     public static List<Iris> readIrisData(String fileName) {
         File file = new File(fileName);
         BufferedReader reader = null;
-        List<Iris> IrisData = new ArrayList<>();
+        List<Iris> irisData = new ArrayList<>();
         try {
             reader = new BufferedReader(new FileReader(file));
             String tempString = null;
@@ -124,23 +98,13 @@ public class Main {
             while ((tempString = reader.readLine()) != null) {
                 // 显示行号
                 String[] temp = tempString.split(",");
-                Iris Iris = new Iris();
-                Iris.type = temp[0];
-                Iris.Alcohol = Double.parseDouble(temp[1]);
-                Iris.Malic = Double.parseDouble(temp[2]);
-                Iris.Ash = Double.parseDouble(temp[3]);
-                Iris.Alcalinity = Double.parseDouble(temp[4]);
-                Iris.Magnesium = Double.parseDouble(temp[5]);
-                Iris.phenols = Double.parseDouble(temp[6]);
-                Iris.Flavanoids = Double.parseDouble(temp[7]);
-                Iris.Nonflavanoid = Double.parseDouble(temp[8]);
-                Iris.Proanthocyanins = Double.parseDouble(temp[9]);
-                Iris.Color = Double.parseDouble(temp[10]);
-                Iris.Hue = Double.parseDouble(temp[11]);
-                Iris.diluted = Double.parseDouble(temp[12]);
-                Iris.Proline = Double.parseDouble(temp[13]);
-
-                IrisData.add(Iris);
+                Iris iris = new Iris();
+                iris.sepalL = Double.parseDouble(temp[0]);
+                iris.sepalW = Double.parseDouble(temp[1]);
+                iris.petalL = Double.parseDouble(temp[2]);
+                iris.petalW = Double.parseDouble(temp[3]);
+                iris.type = temp[4];
+                irisData.add(iris);
             }
             reader.close();
         } catch (IOException e) {
@@ -155,8 +119,53 @@ public class Main {
                 }
             }
         }
-        return IrisData;
+        return irisData;
     }
+
+//    public static List<Iris> readIrisData(String fileName) {
+//        File file = new File(fileName);
+//        BufferedReader reader = null;
+//        List<Iris> IrisData = new ArrayList<>();
+//        try {
+//            reader = new BufferedReader(new FileReader(file));
+//            String tempString = null;
+//            int line = 1;
+//            while ((tempString = reader.readLine()) != null) {
+//                // 显示行号
+//                String[] temp = tempString.split(",");
+//                Iris Iris = new Iris();
+//                Iris.type = temp[0];
+//                Iris.Alcohol = Double.parseDouble(temp[1]);
+//                Iris.Malic = Double.parseDouble(temp[2]);
+//                Iris.Ash = Double.parseDouble(temp[3]);
+//                Iris.Alcalinity = Double.parseDouble(temp[4]);
+//                Iris.Magnesium = Double.parseDouble(temp[5]);
+//                Iris.phenols = Double.parseDouble(temp[6]);
+//                Iris.Flavanoids = Double.parseDouble(temp[7]);
+//                Iris.Nonflavanoid = Double.parseDouble(temp[8]);
+//                Iris.Proanthocyanins = Double.parseDouble(temp[9]);
+//                Iris.Color = Double.parseDouble(temp[10]);
+//                Iris.Hue = Double.parseDouble(temp[11]);
+//                Iris.diluted = Double.parseDouble(temp[12]);
+//                Iris.Proline = Double.parseDouble(temp[13]);
+//
+//                IrisData.add(Iris);
+//            }
+//            reader.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (reader != null) {
+//                try {
+//                    reader.close();
+//                } catch (IOException e1) {
+//                    e1.printStackTrace();
+//
+//                }
+//            }
+//        }
+//        return IrisData;
+//    }
 
 
 

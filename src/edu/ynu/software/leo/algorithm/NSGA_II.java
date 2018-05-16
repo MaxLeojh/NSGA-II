@@ -37,11 +37,13 @@ public class NSGA_II {
         return result;
     }
 
+
+
     static class distanceComparator implements Comparator {
         public int compare(Object object1, Object object2) {// 实现接口中的方法
             Individual ind1 = (Individual) object1; // 强制转换
             Individual ind2 = (Individual) object2;
-            return ind1.distance.compareTo(ind2.distance);
+            return ind2.distance.compareTo(ind1.distance);
         }
     }
 }

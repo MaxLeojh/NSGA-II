@@ -5,125 +5,57 @@ package edu.ynu.software.leo.dataSet;
  */
 public class Iris {
     /**
-     *
-     1) Alcohol
-     2) Malic acid
-     3) Ash
-     4) Alcalinity of ash
-     5) Magnesium
-     6) Total phenols
-     7) Flavanoids
-     8) Nonflavanoid phenols
-     9) Proanthocyanins
-     10)Color intensity
-     11)Hue
-     12)OD280/OD315 of diluted Iriss
-     13)Proline
+     * Attribute Information:
+     * 1. sepal length in cm
+     * 2. sepal width in cm
+     * 3. petal length in cm
+     * 4. petal width in cm
+     * 5. class:
+     -- Iris Setosa
+     -- Iris Versicolour
+     -- Iris Virginica
      */
-    public Double Alcohol;
-    public Double Malic;
-    public Double Ash;
-    public Double Alcalinity;
-    public Double Magnesium;
-    public Double phenols;
-    public Double Flavanoids;
-    public Double Nonflavanoid;
-    public Double Proanthocyanins;
-    public Double Color;
-    public Double Hue;
-    public Double diluted;
-    public Double Proline;
-
+    public Double sepalL;
+    public Double sepalW;
+    public Double petalL;
+    public Double petalW;
     public String type;
 
     public Double distance(Iris obj) {
-        return
-                Math.sqrt(Math.pow(this.Alcohol-obj.Alcohol,2)
-                        + Math.pow(this.Malic-obj.Malic,2)
-                        + Math.pow(this.Ash-obj.Ash,2)
-                        + Math.pow(this.Alcalinity-obj.Alcalinity,2)
-                        + Math.pow(this.Magnesium-obj.Magnesium,2)
-                        + Math.pow(this.phenols-obj.phenols,2)
-                        + Math.pow(this.Nonflavanoid-obj.Nonflavanoid,2)
-                        + Math.pow(this.Proanthocyanins-obj.Proanthocyanins,2)
-                        + Math.pow(this.Color-obj.Color,2)
-                        + Math.pow(this.Hue-obj.Hue,2)
-                        + Math.pow(this.diluted-obj.diluted,2)
-                        + Math.pow(this.Proline-obj.Proline,2)
-                        + Math.pow(this.Flavanoids-obj.Flavanoids,2)
-                );
+        return Math.sqrt(Math.pow(this.sepalL-obj.sepalL,2) + Math.pow(this.sepalW-obj.sepalW,2) + Math.pow(this.petalL-obj.petalL,2) + Math.pow(this.petalW-obj.petalW,2));
     }
 
     public Iris plus(Iris obj) {
-        this.Alcohol += obj.Alcohol;
-        this.Malic += obj.Malic;
-        this.Ash += obj.Ash;
-        this.Alcalinity += obj.Alcalinity;
-        this.Magnesium += obj.Magnesium;
-        this.phenols += obj.phenols;
-        this.Nonflavanoid += obj.Nonflavanoid;
-        this.Proanthocyanins += obj.Proanthocyanins;
-        this.Color += obj.Color;
-        this.Hue += obj.Hue;
-        this.diluted += obj.diluted;
-        this.Proline += obj.Proline;
-        this.Flavanoids += obj.Flavanoids;
+        this.sepalL += obj.sepalL;
+        this.sepalW += obj.sepalW;
+        this.petalL += obj.petalL;
+        this.petalW += obj.petalW;
 
         return this;
     }
 
     public Iris divideBy(Integer divisor) {
-        this.Alcohol /= divisor;
-        this.Malic /= divisor;
-        this.Ash /= divisor;
-        this.Alcalinity /= divisor;
-        this.Magnesium /= divisor;
-        this.phenols /= divisor;
-        this.Nonflavanoid /= divisor;
-        this.Proanthocyanins /= divisor;
-        this.Color /= divisor;
-        this.Hue /= divisor;
-        this.diluted /= divisor;
-        this.Proline /= divisor;
-        this.Flavanoids /= divisor;
+        this.sepalL /= divisor;
+        this.sepalW /= divisor;
+        this.petalL /= divisor;
+        this.petalW /= divisor;
 
         return this;
     }
 
-    public Iris(Double Alcohol, Double Malic, Double Ash, Double Alcalinity, Double Magnesium, Double phenols, Double Nonflavanoid, Double Proanthocyanins,Double Color, Double Hue, Double diluted, Double Proline, Double Flavanoids, String type) {
-        this.Alcohol = Alcohol;
-        this.Malic = Malic;
-        this.Ash = Ash;
-        this.Alcalinity = Alcalinity;
-        this.Magnesium = Magnesium;
-        this.phenols = phenols;
-        this.Nonflavanoid = Nonflavanoid;
-        this.Proanthocyanins = Proanthocyanins;
-        this.Color = Color;
-        this.Hue = Hue;
-        this.diluted = diluted;
-        this.Proline = Proline;
-        this.Flavanoids = Flavanoids;
+    public Iris(Double sepalL, Double sepalW, Double petalL, Double petalW, String type) {
+        this.sepalL = sepalL;
+        this.sepalW = sepalW;
+        this.petalL = petalL;
+        this.petalW = petalW;
         this.type = type;
     }
 
     public Iris() {
-
-
-        this.Alcohol = 0.0;
-        this.Malic = 0.0;
-        this.Ash = 0.0;
-        this.Alcalinity = 0.0;
-        this.Magnesium = 0.0;
-        this.phenols = 0.0;
-        this.Nonflavanoid = 0.0;
-        this.Proanthocyanins = 0.0;
-        this.Color = 0.0;
-        this.Hue = 0.0;
-        this.diluted = 0.0;
-        this.Proline = 0.0;
-        this.Flavanoids = 0.0;
-
+        this.sepalL = 0.0;
+        this.sepalW = 0.0;
+        this.petalL = 0.0;
+        this.petalW = 0.0;
         this.type = "Unknown";
     }
 }

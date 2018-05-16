@@ -1,12 +1,15 @@
 package edu.ynu.software.leo.test;
 
 import edu.ynu.software.leo.algorithm.CombineAndArrangement;
+import edu.ynu.software.leo.algorithm.Individual;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by maxleo on 17-11-30.
@@ -14,6 +17,37 @@ import java.util.ArrayList;
 public class Test {
     public static void main(String[] args) {
 //        patten(50);
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(6);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(7);
+        list.add(5);
+        list.add(0);
+
+        list.sort(new adaptiveValuesComparator(1));
+
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i));
+        }
+
+    }
+
+    static class adaptiveValuesComparator implements Comparator {
+        public Integer ojbFunIndex;
+
+        public adaptiveValuesComparator(Integer ojbFunIndex) {
+            this.ojbFunIndex = ojbFunIndex;
+        }
+
+        public int compare(Object object1, Object object2) {// 实现接口中的方法
+            Integer ind1 = (Integer) object1; // 强制转换
+            Integer ind2 = (Integer) object2;
+            System.out.println("ssss"+ind1.compareTo(ind2));
+            return ind2.compareTo(ind1);
+        }
     }
 
 

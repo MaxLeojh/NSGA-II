@@ -1,5 +1,11 @@
 package edu.ynu.software.leo.algorithm;
 
+import edu.ynu.software.leo.dataSet.Iris;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -18,13 +24,60 @@ public class Population {
         }
     }
 
-    public Population(Boolean isInitialize) {
+    public Population(Boolean isInitialize) { //initial population
         if (isInitialize) {
             for (int i = 0; i < populationSize; i++) {
                 Individual newIndividual = new Individual(true);
                 individualList.add(newIndividual);
             }
         }
+    }
+
+    public void geneGuide(){
+        for (int i = 0; i < populationSize; i++) {
+            individualList.get(i).geneGuide();
+        }
+    }
+
+    public void eliteInjection(String filename) {
+        List<Individual> eliteIndiv = getEliteIndiv(filename);
+        for (int i = 0; i < eliteIndiv.size(); i++) {
+            individualList.remove(0);
+            individualList.add(eliteIndiv.get(i));
+        }
+    }
+
+    public List<Individual> getEliteIndiv(String fileName){
+        File file = new File(fileName);
+        BufferedReader reader = null;
+        List<Individual> eliteIndivs = new ArrayList<>();
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempString = null;
+            int line = 1;
+            while ((tempString = reader.readLine()) != null) {
+                String[] temp = tempString.split(",");
+                Individual individual = new Individual();
+                for (int i = 0; i < temp.length; i++) {
+                    individual.gene.add(Integer.parseInt(temp[i]));
+                }
+                individual.calcDerivedAttr();
+                eliteIndivs.add(individual);
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+
+                }
+            }
+        }
+        return eliteIndivs;
     }
 
     public Population() {
@@ -97,7 +150,7 @@ public class Population {
             ind.distance = 0.0;
         }
         for (int i = 0; i < Individual.objFunNum; i++) {
-            individualList.sort(new adaptiveValuesComparator(i));
+            individualList.sort(new adaptiveValuesComparator(i));//ascending order
             individualList.get(0).distance = Double.MAX_VALUE/(Individual.objFunNum*10);
             individualList.get(individualList.size()-1).distance = Double.MAX_VALUE/(Individual.objFunNum*10);
             for (int j = 1; j < size()-1; j++) {
